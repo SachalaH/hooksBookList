@@ -1,8 +1,12 @@
 import React, { useContext, useState } from "react";
 import { BookContext } from "../contexts/BookContext";
+import { ThemeContext } from "../contexts/ThemeContext";
+import ToggleTheme from "./ToggleTheme";
 
 const NewBookForm = () => {
   const { dispatch } = useContext(BookContext);
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
+  const theme = isLightTheme ? light : dark;
 
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -20,23 +24,32 @@ const NewBookForm = () => {
     setAuthor("");
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={title}
-        placeholder="Book title"
-        required
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <input
-        type="text"
-        value={author}
-        placeholder="Book author"
-        required
-        onChange={(e) => setAuthor(e.target.value)}
-      />
-      <input type="submit" value="Add book" />
-    </form>
+    <>
+      <form onSubmit={handleSubmit} style={{ background: theme.ui }}>
+        <input
+          type="text"
+          value={title}
+          placeholder="Book title"
+          required
+          onChange={(e) => setTitle(e.target.value)}
+          style={{ background: theme.bg, color: theme.syntax }}
+        />
+        <input
+          type="text"
+          value={author}
+          placeholder="Book author"
+          required
+          onChange={(e) => setAuthor(e.target.value)}
+          style={{ background: theme.bg, color: theme.syntax }}
+        />
+        <input
+          type="submit"
+          value="Add book"
+          style={{ background: theme.bg, color: theme.syntax }}
+        />
+      </form>
+      <ToggleTheme />
+    </>
   );
 };
 
